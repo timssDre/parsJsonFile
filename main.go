@@ -45,7 +45,7 @@ func main() {
 
 	for i := ch; i > 0; i-- { //indexI <= lenResCal {
 		go calculations(resObj, indexI, lenResCal, &wg, c)
-		indexI += 2
+		indexI += unInteger
 	}
 
 	wg.Wait()
