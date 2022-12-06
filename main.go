@@ -3,10 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
-	"sync"
 )
 
 type ResponseSt struct {
@@ -14,75 +12,69 @@ type ResponseSt struct {
 	B int `json:"b"`
 }
 
-const unInteger = 2
+const unInteger = 1000
 
 func main() {
-	file, err := os.Open("input.json")
+	resJs, err := os.ReadFile("input.json")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	defer file.Close()
-	resJs, err := ioutil.ReadAll(file)
-	if err != nil { // если конец файла
-		log.Fatal(err)
-	}
 	var resObj []ResponseSt
 	err = json.Unmarshal(resJs, &resObj)
-	if err != nil { // если конец файла
+	if err != nil {
 		log.Fatal(err)
 	}
 
 	lenRes := len(resObj)
-	ch := 0
-	findCh(&lenRes, &ch, resObj)
 
-	lenResCal := len(resObj)
-	indexI := 0
-	var wg sync.WaitGroup
-	wg.Add(ch)
-	c := make(chan int, ch)
+	workerCount := findCh(lenRes)
 
-	for i := ch; i > 0; i-- { //indexI <= lenResCal {
-		go calculations(resObj, indexI, lenResCal, &wg, c)
-		indexI += 2
+	ch := make(chan int, 10)
+
+	for i := 0; i < workerCount; i++ {
+		go calculations(resObj, i*unInteger, lenRes, ch)
 	}
-
-	wg.Wait()
 
 	req := 0
-	for i := ch; i > 0; i-- {
-		req += <-c
+	for i := 0; i < workerCount; i++ {
+		req += <-ch
 
 	}
-	fmt.Println(req / ch)
+
+	fmt.Println(req / workerCount)
 }
 
-func findCh(lenRes *int, ch *int, resObj []ResponseSt) {
-	for *lenRes > 0 {
-		*lenRes -= unInteger
-		*ch++
-		if *lenRes <= 0 {
-			return
-		}
-		findCh(lenRes, ch, resObj)
+func findCh(lenRes int) int {
+	res := lenRes / unInteger
+	if lenRes%unInteger > 0 {
+		res++
 	}
+	return res
 }
 
-func calculations(resObj []ResponseSt, indexI int, lenRes int, wg *sync.WaitGroup, c chan int) {
-	j := indexI
+func calculations(resObj []ResponseSt, indexI int, lenRes int, doneCh chan int) {
+	i := indexI
 	sum := 0
-	que := 0
-	for i := 0; i < unInteger; i++ {
-		que++
-		if j >= lenRes {
-			continue
+	for ; i < indexI+unInteger; i++ {
+		if i >= lenRes {
+			break
 		}
-		sum += resObj[j].A + resObj[j].B
-		j++
+		sum += resObj[i].A + resObj[i].B
 	}
-	req := sum / que
+	req := sum / (i - indexI)
 
-	c <- req
-	defer wg.Done()
+	doneCh <- req
 }
+
+//func calc(block []ResponseSt, wg *sync.WaitGroup, doneCh chan int) {
+//	defer wg.Done()
+//
+//	result := 0
+//
+//	for _, item := range block {
+//		result += item.A + item.B
+//	}
+//
+//	doneCh <- result / len(block) * 2
+//}
