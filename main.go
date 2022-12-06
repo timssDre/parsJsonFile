@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"os"
 	"sync"
@@ -23,7 +23,7 @@ func main() {
 		os.Exit(1)
 	}
 	defer file.Close()
-	resJs, err := ioutil.ReadAll(file)
+	resJs, err := io.ReadAll(file)
 	if err != nil { // если конец файла
 		log.Fatal(err)
 	}
