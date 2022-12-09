@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fdcd4a47-14ae-4e62-9b2a-75cffb536dc3" name="Changes" comment="commit 6">
-      <change afterPath="$PROJECT_DIR$/gdfgdg.go" afterDir="false" />
+    <list default="true" id="fdcd4a47-14ae-4e62-9b2a-75cffb536dc3" name="Changes" comment="commit 7">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testGitIgnor.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testGitIgnor1.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ts.go" beforeDir="false" afterPath="$PROJECT_DIR$/ts.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +129,8 @@
     <MESSAGE value="commit 4" />
     <MESSAGE value="commit 5" />
     <MESSAGE value="commit 6" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit 6" />
+    <MESSAGE value="commit 7" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit 7" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
